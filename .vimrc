@@ -1,0 +1,1 @@
+/Users/garrettgeorge/Documents/GitHub/voidrice/.vimrc
