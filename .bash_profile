@@ -3,14 +3,6 @@
 
 # Adds `~/.scripts` and all subdirectories to $PATH
 
-export PATH="$(du "$HOME/.scripts/" | cut -f2 | tr '\n' ':')$PATH"
-export EDITOR="vim"
-export TERMINAL="bash"
-export BROWSER="firefox"
-# export READER="zathura"
-# export BIB="$HOME/Documents/LaTeX/uni.bib"
-# export REFER="$HOME/.referbib"
-
 # less/man colors
 export LESS=-R
 export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
