@@ -4,7 +4,7 @@
 export PATH="$(du $HOME/.scripts/ | cut -f2 | tr '\n' ':')$PATH"
 
 # Environment variables
-export EDITOR="vim"
+export EDITOR="nvim"
 export TERM="xterm-256color"
 export TERMINAL="zsh"
 if [ -n "$DISPLAY" ]; then
@@ -12,12 +12,8 @@ if [ -n "$DISPLAY" ]; then
 else 
     export BROWSER=links
 fi
-export RAILS_ENCRYPTION_KEY=d6c182ed0d9254a6f57247522d2f0dc5
 export DISABLE_SPRING=1
-export CUCUMBER_PUBLISH_TOKEN=02717ce5-f8ee-43d0-9f71-67fab470d5ba
 export WEB_CONCURRENCY=1
-export LOCAL_IP_ADDRESS="192.168.200.166"
-export LOCAL_NETWORK_IP_ADDRESS="192.168.0.0/16"
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 
 # Wine
@@ -49,9 +45,6 @@ export PATH="/usr/local/sbin:$PATH"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# Shortcuts
-[ ! -f ~/.shortcuts ] && shortcuts >/dev/null 2>&1
 
 # Yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
