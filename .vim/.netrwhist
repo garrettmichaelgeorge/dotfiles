@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/garrettgeorge/sites/garrettmichaelgeorge'
+let g:netrw_dirhist_8='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/_sass'
+let g:netrw_dirhist_7='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/assets/css'
+let g:netrw_dirhist_6='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/_layouts'
+let g:netrw_dirhist_5='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io'
+let g:netrw_dirhist_4='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/_layouts'
+let g:netrw_dirhist_3='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/_includes'
+let g:netrw_dirhist_2='/Users/garrettgeorge/Documents/Sites/garrettmichaelgeorge.github.io/_layouts'
+let g:netrw_dirhist_1='/usr/local/Cellar/vim/8.1.2000/share/vim/vim81/doc'
