@@ -1,0 +1,108 @@
+# ~/.custom_aliases
+
+# General
+alias c="clear"
+alias e="$EDITOR"
+alias sysctl="systemctl"
+alias v="vim"
+alias r="ranger"
+alias ka="killall"
+alias g="git"
+alias mkd="mkdir -pv"
+alias ref="shortcuts && source ~/.zshrc" # Refresh shortcuts manually and reload zshrc
+alias REF="source $PATH"
+alias ez="exec zsh"
+
+# Text editing
+alias code="code-insiders" # Open nightly version of VS Code
+
+# Adding color
+alias ls='ls -1a'
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+alias ccat="highlight --out-format=ansi" # Color cat - print file with syntax highlighting.
+
+# Directories
+alias ptj="~/sites/timeless_jeweler"
+alias ptjpub="~/sites/timeless_jeweler_public"
+alias pck="~/Projects/web-audio/crimson_keys"
+alias s="~/sites"
+alias sgmg="~/sites/garrettmichaelgeorge"
+alias sgg="~/sites/garrettgeorge.dev"
+alias scga="~/sites/christina-george-art"
+alias tti="~/Work/tti"
+
+# Internet
+alias yt="youtube-dl --add-metadata -ic" # Download video link
+alias yta="yt -x -f bestaudio/best" # Download only audio
+alias YT="youtube-viewer"
+
+# Ruby & Rails
+alias rb="ruby"
+alias be="bundle exec"
+alias bejs="bundle exec jekyll serve"
+alias bers="bundle exec rails server"
+alias bd="bin/deploy"
+alias rs="bin/rails server -b $LOCAL_IP_ADDRESS"
+# alias restart_rails='kill -9 `cat tmp/pids/server.pid` && bundle exec rails server'
+alias rre="touch tmp/restart.txt" # restarts Rails server
+alias rc="bin/rails console"
+alias rcs="bin/rails console --sandbox"
+alias wp="bin/webpack-dev-server"
+
+# Javascript
+alias cra="npx create-react-app"
+alias ys="yarn start"
+alias yu="yarn upgrade"
+
+# Elixir
+alias mps="mix phx.server"
+alias mt="mix test"
+alias mto="mix test --only"
+
+# Heroku
+alias hlt="heroku logs --tail"
+alias ha="heroku addons"
+alias hai="heroku addons" # requires the name of the addon as argument
+
+# Wine
+# Launch Steam on Wine
+alias steam_wine="wine ~/.wine/drive_c/Program\ Files\ (x86)/Steam/steam.exe -no-cef-sandbox"
+
+# Download
+alias license_mit='curl https://opensource.org/licenses/MIT >> ./LICENSE'
+
+# Scripts
+alias random_subdomain="ruby ~/.scripts/ruby/random_subdomain.rb"
+alias largest_file='ruby ~/.scripts/ruby/largest_file.rb'
+alias tic_tac_toe='ruby ~/.scripts/ruby/tic_tac_toe/tic_tac_toe.rb'
+alias remove_dumb_macos_duplicates='~/.scripts/remove_dumb_macos_duplicates'
+
+# Connect to bluetooth
+alias bt="BluetoothConnector"
+alias btdoss="BluetoothConnector fc-58-fa-a6-ca-43"
+alias doss='fc-58-fa-a6-ca-43'
+
+# Git dotfiles workflow
+alias config='/usr/bin/git --git-dir=/Users/garrettgeorge/.cfg/ --work-tree=/Users/garrettgeorge'
+
+# ImageMagick resize
+# from: https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
+# Example usage: smartresize inputfile.png 300 outputdir/
+smartresize() {
+    mogrify -path $3 -filter Triangle -define filter:support=2 -thumbnail $2 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB $1
+}
+
+### Simplified version for compressing web images (one argument only)
+# compresses to width of 2500px and stores in pwd
+# Example usage: smartresize_2500 inputfile.png
+smartresize_2500() {
+    mogrify -path . -filter Triangle -define filter:support=2 -thumbnail 2500 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB $1
+}
+
+giffy() {
+    INPUT_FILE=$1
+    OUTPUT_FILE=$2
+    ffmpeg -i INPUT_FILE -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > OUTPUT_FILE
+}
+alias loco='cd ~/Projects/elixir/loco'
