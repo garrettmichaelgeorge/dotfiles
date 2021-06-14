@@ -84,7 +84,8 @@ alias btdoss="BluetoothConnector fc-58-fa-a6-ca-43"
 alias doss='fc-58-fa-a6-ca-43'
 
 # Git dotfiles workflow
-alias config='/usr/bin/git --git-dir=/Users/garrettgeorge/.cfg/ --work-tree=/Users/garrettgeorge'
+# Read more: https://www.atlassian.com/git/tutorials/dotfiles
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # ImageMagick resize
 # from: https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
