@@ -1,0 +1,7 @@
+v1.00 (1 Feb 2010)   Initial release
+
+v1.01 (2 Feb 2010)
+	* Chord symbols now supported.
+	* sib2lydump.plg updated to work with Sibelius 5.
+	* Fixed bug with phrasing slurs.
+	* Odd cases like multiple BarRests per bar are handled more gracefuly.

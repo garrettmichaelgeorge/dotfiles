@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#CG Art Transfer Images
+#by Garrett George
+
+#This is a Bash script that watches a source folder (Creative\ Cloud/cgart/) for certain JPEG files and copies them into a destination folder (christina-george-art/assets/images/)
+#Used for maintaining and updating the scanned portfolio images for Christie's art website
+
+#Expected workflow:
+# 1. Christie scans, edits, and merges a painting, renaming the final JPEG with '-final' in the filename
+# 2. This script detects that a new matching file has been added to the source folder
+# 3. The new file is copied into the destination folder, ready to be added to a new portfolio page
+# 4. (Future feature) A new portfolio page is automatically created for the new image
+
+#BEGIN SCRIPT
+
+#Watch the folder for a RegEx matching .jpg files including the word 'final'
+
+#Check to see if the image file already exists in the destination directory
+
+#If so, do nothing
+
+#If not, then copy the file to the destination directory

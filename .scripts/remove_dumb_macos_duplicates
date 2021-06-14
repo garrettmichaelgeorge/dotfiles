@@ -1,0 +1,14 @@
+#!/usr/local/bin/zsh
+
+# Sometimes macOS/iCloud/? decides to create a duplicate of every file in a
+# project directory structure. This is not desirable. Run this script from the
+# project root to eliminate all such duplicates at once.
+# Read more: https://unix.stackexchange.com/a/200335/457631
+
+echo "Now purging all stupid duplicates. Get ready for peace of mind."
+
+for file (**/*\ 2*(ND.)) {
+  rm $file && echo "Removing $file"
+}
+
+echo "Duplicates purged!"
