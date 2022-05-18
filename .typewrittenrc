@@ -1,0 +1,30 @@
+#! /usr/local/bin/zsh
+
+# TYPEWRITTEN ZSH PROMPT
+# Set typewritten ZSH as a prompt
+fpath+=$HOME/.zsh/typewritten
+autoload -U promptinit; promptinit
+prompt typewritten
+
+# CUSTOMIZATION
+
+# Define how prompt is displayed
+# options: *singleline, half_pure, pure, singleline_verbose, multiline
+export TYPEWRITTEN_PROMPT_LAYOUT='singleline'
+
+# Defines the prompt symbol.
+# options: any string value *'>'
+export TYPEWRITTEN_SYMBOL='❯'
+
+# If true, the current git home directory name is always shown next to the
+# current directory name.
+export TYPEWRITTEN_GIT_RELATIVE_PATH='true'
+# options: true, *false
+
+# Defines the used cursor.
+export TYPEWRITTEN_CURSOR='block'
+# options: *underscore, beam, block, terminal
+
+# Defines what is displayed just before the right part of the prompt.
+# export TYPEWRITTEN_RIGHT_PROMPT=''
+# options: any string *''
