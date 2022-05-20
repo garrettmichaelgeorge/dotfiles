@@ -33,5 +33,10 @@
 [diff]
 	colorMoved = default
 [core]
-	excludesFile = /Users/garrett.george/.gitignore
-	sshCommand = /usr/bin/ssh
+	excludesFile = ~/.gitignore
+	sshCommand = /usr/bin/env ssh
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
