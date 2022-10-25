@@ -22,16 +22,16 @@ upgrade_pkg () {
   notify "$message..." "$command"
 
   if (${command}); then
-    notify "Success!" "$command"
+    notify "Succeeded" "$command"
   else
-    notify "Failure! {$?}" "$command"
+    notify "Failed with exit status $?" "$command"
   fi
 }
 
 main () {
   upgrade_pkg "brew upgrade" "Upgrading Homebrew" 
   upgrade_pkg "brew cleanup" "Cleaning brew packages" 
-  upgrade_pkg "nix-env --upgrade" "Upgrading nix packages" 
+  upgrade_pkg "nix profile upgrade '.*'" "Upgrading nix packages" 
   upgrade_pkg "brew reinstall neovim" "Updating Neovim nightly" 
   upgrade_pkg "nvim --headless +PackUpdate +PackClean +qa" "Updating Neovim packages" 
 
