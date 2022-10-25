@@ -7,17 +7,12 @@
 export EDITOR="nvim"
 # export TERM="xterm-256color"
 export TERMINAL="zsh"
-if [ -n "$DISPLAY" ]; then
-    export BROWSER="Chrome"
-else 
-    export BROWSER=links
-fi
+export BROWSER="Firefox Developer Edition"
 export DISABLE_SPRING=1
 export WEB_CONCURRENCY=1
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 export BAT_THEME="gruvbox-dark"
 export LS_COLORS="$(vivid generate solarized-dark)"
-export CC="$HOME/.nix-profile/bin/gcc"
 
 # Wine
 export WINEPREFIX="$HOME/.wine/"
@@ -35,16 +30,21 @@ export DYLD_FALLBACK_LIBRARY_PATH="/usr/lib:/opt/X11/lib:$DYLD_FALLBACK_LIBRARY_
 # export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 # export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
+# Compilers & Build Tools
 # asdf
 export PATH="$HOME/.asdf/shims:$PATH"
+export KERL_CONFIG=${KERL_CONFIG:="$HOME"/.kerlrc}
 export KERL_BUILD_DOCS=true
-export KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac"
-
-# Load rbenv automatically
-# eval "$(rbenv init -)"
-# export PATH="/usr/local/opt/qt/bin:$PATH"
-# export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+export KERL_CONFIGURE_OPTIONS="--disable-debug \
+                               --disable-hipe \
+                               --enable-smp-support \
+                               --enable-threads \
+                               --enable-kernel-poll \
+                               --without-odbc \
+                               --without-termcap \
+                               --enable-darwin-64bit \
+                               --with-wx-config=`brew --prefix wxwidgets`/bin/wx-config \
+                               --with-ssl=`brew --prefix openssl@1.1`"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
