@@ -59,19 +59,22 @@ local on_attach = function(client, bufnr)
 end
 
 -- use LSP snippets
--- https://github.com/hrsh7th/nvim-compe#how-to-use-lsp-snippet
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- https://github.com/hrsh7th/nvim-cmp#setup
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
+-- DEPRECATED: https://github.com/hrsh7th/nvim-compe#how-to-use-lsp-snippet
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities.textDocument.completion.completionItem.resolveSupport = {
+--   properties = {
+--     'documentation',
+--     'detail',
+--     'additionalTextEdits',
+--   }
+-- }
+
+-- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Enable the following language servers
 
@@ -117,17 +120,36 @@ local prettier = {
 --   formatStdin = true
 }
 
-local eslint_d = {
-  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+local shell = {
+  lintCommand = "shellcheck",
   lintStdin = true,
   lintFormats = {"%f:%l:%c: %m"},
   lintIgnoreExitCode = true,
-  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-  formatStdin = true
 }
 
-local shell = {
-  lintCommand = "shellcheck",
+local nix_nil = {
+  lintCommand = "nil",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+}
+
+local nix_statix = {
+  lintCommand = "statix",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+}
+
+local nixpkgs_lint = {
+  lintCommand = "nispkgs-lint",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+}
+
+local nixpkgs_hammering = {
+  lintCommand = "nispkgs-hammering",
   lintStdin = true,
   lintFormats = {"%f:%l:%c: %m"},
   lintIgnoreExitCode = true,
@@ -138,7 +160,7 @@ lspconfig.efm.setup({
   cmd = {'efm-langserver', '-logfile', home..'/.config/efm-langserver/efm.log', '-loglevel', '10'},
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = {"elixir", "heex", "eelixir", "javascript", "javascriptreact", "vue", "sh", "shell", "bash"},
+  filetypes = {"elixir", "heex", "eelixir", "javascript", "javascriptreact", "vue", "sh", "shell", "bash", "nix"},
   init_options = {
     documentFormatting = true,
     hover = true,
@@ -157,7 +179,8 @@ lspconfig.efm.setup({
       javascript = { prettier },
       typescript = { },
       shell = { shell },
-      bash = { shell }
+      bash = { shell },
+      nix = { nix_nil, nix_statix, nixpkgs_lint, nixpkgs_hammering }
     }
   }
 })
@@ -165,6 +188,19 @@ lspconfig.efm.setup({
 require'lspconfig'.bashls.setup{
   on_attach = on_attach,
   capabilities = capabilities,
+}
+
+require'lspconfig'.terraformls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+require'lspconfig'.tflint.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { "tflint", "--langserver" },
+  filetypes = { "terraform" },
+  root_dir = require'lspconfig'.util.root_pattern(".terraform", ".git", ".tflint.hcl")
 }
 
 require'lspconfig'.emmet_ls.setup{
@@ -274,17 +310,25 @@ require'lspconfig'.jsonls.setup {
   capabilities = capabilities
 }
 
--- Enable Lua custom server
-local sumneko_root_path = vim.fn.getenv("HOME").."/Documents/GitHub/lua-language-server" -- Change to your sumneko root installation
-local sumneko_binary = sumneko_root_path..'/bin/macOS/lua-language-server'
+require'lspconfig'.rnix.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
 
+-- https://github.com/oxalica/nil#neovim-native-lsp-and-nvim-lspconfig
+require'lspconfig'.nil_ls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
+-- Enable Lua custom server
 -- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-lspconfig.sumneko_lua.setup({
-  cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+lspconfig.lua_ls.setup({
+  cmd = { 'lua-language-server' },
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
