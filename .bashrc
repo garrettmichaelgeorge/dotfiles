@@ -1,9 +1,4 @@
 #!/bin/bash
-#  _               _
-# | |__   __ _ ___| |__  _ __ ___
-# | '_ \ / _` / __| '_ \| '__/ __|
-# | |_) | (_| \__ \ | | | | | (__
-# |_.__/ \__,_|___/_| |_|_|  \___|
 
 # NOTE: most aliases, etc. are now in ~/.profile
 
@@ -16,3 +11,5 @@ if [ "$EUID" -ne 0 ]
 fi
 
 source ~/.profile
+
+eval "$(direnv hook bash)"
