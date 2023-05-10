@@ -12,7 +12,6 @@ lua require("me/telescope")
 lua require("me/treesitter")
 lua require("me/cmp")
 lua require("me/refactoring")
-lua require("me/neorg")
 
 " Refactorings
 " heavily influenced by Gary Bernhardt
