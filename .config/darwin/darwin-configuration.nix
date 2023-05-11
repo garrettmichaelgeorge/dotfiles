@@ -8,9 +8,19 @@
   environment.systemPackages =
     with pkgs;
     [
+      bashInteractive
       neovim
       vim
+      zsh
     ];
+
+  environment.variables = {
+    THIS_WAS_SET_FROM_DARWIN_CONFIGURATION = "verily!";
+  };
+
+  # Facilitate bash completion for system packages
+  # https://nix-community.github.io/home-manager/options.html#opt-programs.bash.enableCompletion
+  environment.pathsToLink = [ "/share/bash-completion" ];
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
@@ -51,26 +61,27 @@
   };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableBashCompletion = true;
+    enableFzfCompletion = true;
+    enableFzfGit = true;
+    enableFzfHistory = true;
+    enableCompletion = true;
+    enableSyntaxHighlighting = true;
+  };
 
-  # programs.zsh.enableBashCompletion = true;
-  # programs.zsh.enableFzfCompletion = true;
-  # programs.zsh.enableFzfGit = true;
-  # programs.zsh.enableFzfHistory = true;
-
-  programs.bash.enableCompletion = true;
-
-  # https://direnv.net
-  # https://rycee.gitlab.io/home-manager/options.html#opt-programs.direnv.enable
-  # programs.direnv.enable = true;
-  # programs.direnv.nix-direnv.enable = true;
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
 
   system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = true;
+  system.keyboard.remapCapsLockToEscape = false;
 
   system.defaults = {
     finder.AppleShowAllExtensions = true;

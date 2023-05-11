@@ -5,18 +5,16 @@
   home.stateVersion = "22.11";
 
   home.sessionVariables = {
-    THIS_WAS_SET_IN_NIX_DARWIN = "yep!";
+    THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
   };
 
   home.packages = with pkgs; [
     asdf-vm
-    bash
     bat
     cachix
     coreutils
     curlie
     delta
-    direnv
     docker
     efm-langserver
     fd
@@ -31,7 +29,6 @@
     lua-language-server
     mdcat
     nil
-    nix-direnv
     nix-doc
     nmap
     nodePackages.bash-language-server
@@ -59,32 +56,95 @@
     zsh
   ];
 
-  # programs.zsh = {
-  #   enable = true;
-  #   enableCompletion = true;
-  #   enableAutosuggestions = true;
-  #   enableSyntaxHighlighting = true;
-  #   shellAliases = {
-  #     c = "clear";
-  #     e = "$EDITOR";
-  #     v = "nvim";
-  #     r = "ranger";
-  #     ka = "killall";
-  #     ez = "exec zsh";
-  #     psag = "ps aux | ag";
-  #   };
-  # };
+  home.shellAliases = {
+    c = "clear";
+    e = "$EDITOR";
+    v = "nvim";
+    r = "ranger";
+    g = "git";
+    n = "nix";
+    ka = "killall";
+    ez = "exec zsh";
+    psag = "ps aux | ag";
+    myip = "curl ipinfo.io/ip";
 
-  home.file.".bashrc".text = ''
-    # Setting Bash prompt. Capitalizes username and host if root user
-    if [ "$EUID" -ne 0 ]
-        then export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h \[$(tput setaf 5)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
-        else export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 3)\]ROOT\[$(tput setaf 2)\]@\[$(tput setaf 4)\]$(hostname | awk '{print toupper($0)}') \[$(tput setaf 5)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
-    fi
+    # Adding color
+    ls = "ls -1a --color";
+    grep = "grep --color=auto";
+    ccat = "highlight --out-format=ansi"; # Color cat - print file with syntax highlighting.
 
-    # shellcheck source=/dev/null
-    source "$HOME/.profile"
+    # Elixir
+    imps = "iex - S mix phx.server";
+    mdg = "mix deps.get";
+    mps = "mix phx.server";
+    mt = "mix test";
+    mtc = "mix test --cover";
+    mto = "mix test --only";
+    mtw = ''
+      fswatch - -latency=0.1 --one-per-batch -r lib test \
+      | mix test --warnings-as-errors --exclude not_implemented:true --listen-on-stdin
+    '';
 
-    eval "$(direnv hook bash)"
-  '';
+    # Terraform
+    tf = "terraform";
+
+    # Git dotfiles workflow
+    # Read more: https://www.atlassian.com/git/tutorials/dotfiles
+    config = "git --git-dir=$HOME/.cfg/ --work-tree=$HOME";
+
+    # Wine
+    # Launch Steam on Wine
+    steam_wine = "wine ~/.wine/drive_c/Program\ Files\ (x86)/Steam/steam.exe -no-cef-sandbox";
+
+    # Nix
+    nr = "nix run";
+    nb = "nix build";
+    nfc = "nix flake check";
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableAutosuggestions = true;
+    enableSyntaxHighlighting = true;
+    # TODO: figure out how to properly migrate these (they are commented for
+    # now)
+    initExtra = ''
+      # asdf version manager
+      # . $HOME/.asdf/asdf.sh
+      # append completions to fpath
+      # fpath=("$ASDF_DIR/completions" $fpath)
+
+      # initialise completions with ZSH's compinit
+      # autoload -Uz compinit
+      # compinit
+
+      # iTerm2
+      # test -e $HOME/.iterm2_shell_integration.zsh && source $HOME/.iterm2_shell_integration.zsh || true
+
+      # one password (op)
+      # source /Users/garrett/.config/op/plugins.sh
+    '';
+  };
+
+  programs.bash = {
+    enable = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # https://github.com/justjanne/powerline-go
+  programs.powerline-go = {
+    enable = true;
+    # https://github.com/justjanne/powerline-go#customization
+    settings = {
+      cwd-mode = "fancy";
+      theme = "gruvbox";
+    };
+  };
 }
