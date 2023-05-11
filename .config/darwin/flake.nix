@@ -28,8 +28,8 @@
       #       --override-input darwin .
       darwinConfigurations = {
         "${name}" = darwin.lib.darwinSystem {
-          inherit pkgs;
-          specialArgs = { trustedUsers = [ userName ]; };
+          inherit pkgs system;
+          specialArgs = { inherit self; trustedUsers = [ userName ]; };
           modules = [
             ./darwin-configuration.nix
             home-manager.darwinModules.home-manager
@@ -41,7 +41,6 @@
               };
             }
           ];
-          system = "x86_64-darwin";
         };
       };
       # Expose the package set, including overlays, for convenience.
@@ -50,25 +49,28 @@
       # Facilitate running darwin-rebuild as a flake app, e.g.
       # nix run reference-to-this-flake
       # https://github.com/LnL7/nix-darwin/issues/613#issuecomment-1485325805
-      apps."${system}".default =
-        let
-          emptyConfiguration = darwin.lib.darwinSystem {
-            inherit system;
-            modules = [ ];
-          };
-
-          builder =
-            if pkgs.stdenv.isDarwin
-            then "${emptyConfiguration.system}/sw/bin/darwin-rebuild switch"
-            else pkgs.lib.getExe pkgs.nixos-rebuid;
-        in
+      apps."${system}" =
         {
-          type = "app";
+          default =
+            let
+              emptyConfiguration = darwin.lib.darwinSystem {
+                inherit system;
+                modules = [ ];
+              };
 
-          program = toString (pkgs.writeScript "activate-system" ''
-            set -eux
-            ${builder} --flake "${self}#''$(hostname -s)" "$@"
-          '');
+              builder =
+                if pkgs.stdenv.isDarwin
+                then "${emptyConfiguration.system}/sw/bin/darwin-rebuild switch"
+                else pkgs.lib.getExe pkgs.nixos-rebuid;
+            in
+            {
+              type = "app";
+
+              program = toString (pkgs.writeScript "activate-system" ''
+                set -eux
+                ${builder} --flake "${self}#''$(hostname -s)" "$@"
+              '');
+            };
         };
     };
 }

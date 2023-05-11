@@ -33,7 +33,6 @@
     nmap
     nodePackages.bash-language-server
     obsidian
-    openssh
     postgresql_14
     python310
     ranger
@@ -100,6 +99,9 @@
     nr = "nix run";
     nb = "nix build";
     nfc = "nix flake check";
+
+    # Nix-Darwin
+    # dr = "nix run ${specialArgs.self}";
   };
 
   programs.zsh = {
@@ -158,5 +160,17 @@
       cwd-mode = "fancy";
       theme = "gruvbox";
     };
+  };
+
+  programs.kitty = {
+    enable = true;
+    theme = "Gruvbox Material Dark Medium";
+    # font = {
+    #   package = pkgs.fira-code;
+    #   name = "Fira Code";
+    #   size = "14.0";
+    # };
+    # settings = { };
+    extraConfig = builtins.readFile ./kitty/kitty.conf;
   };
 }
