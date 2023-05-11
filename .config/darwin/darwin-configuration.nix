@@ -80,8 +80,10 @@
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
 
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = false;
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = false;
+  };
 
   system.defaults = {
     finder.AppleShowAllExtensions = true;
