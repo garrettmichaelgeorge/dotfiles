@@ -49,28 +49,25 @@
       # Facilitate running darwin-rebuild as a flake app, e.g.
       # nix run reference-to-this-flake
       # https://github.com/LnL7/nix-darwin/issues/613#issuecomment-1485325805
-      apps."${system}" =
+      apps."${system}".default =
+        let
+          emptyConfiguration = darwin.lib.darwinSystem {
+            inherit system;
+            modules = [ ];
+          };
+
+          builder =
+            if pkgs.stdenv.isDarwin
+            then "${emptyConfiguration.system}/sw/bin/darwin-rebuild switch"
+            else pkgs.lib.getExe pkgs.nixos-rebuid;
+        in
         {
-          default =
-            let
-              emptyConfiguration = darwin.lib.darwinSystem {
-                inherit system;
-                modules = [ ];
-              };
+          type = "app";
 
-              builder =
-                if pkgs.stdenv.isDarwin
-                then "${emptyConfiguration.system}/sw/bin/darwin-rebuild switch"
-                else pkgs.lib.getExe pkgs.nixos-rebuid;
-            in
-            {
-              type = "app";
-
-              program = toString (pkgs.writeScript "activate-system" ''
-                set -eux
-                ${builder} --flake "${self}#''$(hostname -s)" "$@"
-              '');
-            };
+          program = toString (pkgs.writeScript "activate-system" ''
+            set -eux
+            ${builder} --flake "${self}#''$(hostname -s)" "$@"
+          '');
         };
     };
 }
