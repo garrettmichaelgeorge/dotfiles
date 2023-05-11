@@ -138,9 +138,21 @@
     nix-direnv.enable = true;
   };
 
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = true;
+      git_commit = {
+        tag_disabled = false;
+        only_detached = false;
+      };
+      shell.disabled = false;
+    };
+  };
+
   # https://github.com/justjanne/powerline-go
   programs.powerline-go = {
-    enable = true;
+    enable = false;
     # https://github.com/justjanne/powerline-go#customization
     settings = {
       cwd-mode = "fancy";
