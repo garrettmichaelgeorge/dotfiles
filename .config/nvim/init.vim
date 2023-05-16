@@ -1,6 +1,5 @@
-set runtimepath^=~/.vim
-let &packpath = &runtimepath
-source ~/.vim/vimrc
+" TODO: incorporate the old vimrc into init.vim
+source $HOME/.config/nvim/vimrc
 
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 

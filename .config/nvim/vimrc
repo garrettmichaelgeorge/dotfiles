@@ -1,3 +1,7 @@
+" NOTE: this is the old vimrc that lived in ~/.vim/vimrc for compatibility
+" reasons. It should probably be incorporated into init.vim (nvim) more
+" smoothly. For now, it lives here as-is.
+
 if &compatible
   " `:set nocp` has many side effects. Therefore this should be done
   " only when 'compatible' is set.
@@ -6,7 +10,7 @@ endif
 
 runtime! plugin/sensible.vim
 
-set packpath^=$HOME/.vim
+" set packpath^=$HOME/.vim
 packadd minpac
 
 " Use MinPac plugin manager
