@@ -1,6 +1,6 @@
 # See https://github.com/LnL7/nix-darwin/blob/master/modules/examples/lnl.nix
 
-{ config, pkgs, lib, specialArgs, ... }:
+{ config, pkgs, specialArgs, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
@@ -39,22 +39,6 @@
       trusted-public-keys = [ ];
       trusted-users = [ "root" ] ++ specialArgs.trustedUsers;
     };
-    distributedBuilds = true;
-    buildMachines = [
-      # Darwin Builder
-      # Use nixpkgs#darwin.builder to bootstrap a Linux builder on a macOS machine
-      # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-builders-use-substitutes
-      # https://nixos.org/manual/nix/stable/advanced-topics/distributed-builds.html
-      {
-        sshUser = "builder";
-        hostName = "localhost";
-        maxJobs = 4;
-        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
-        # Note this is an "impure" path by design
-        sshKey = "/etc/nix/builder_ed25519";
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-      }
-    ];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

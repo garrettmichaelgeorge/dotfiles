@@ -6,6 +6,7 @@
 
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
+    EDITOR = "nvim";
   };
 
   home.packages = with pkgs; [
@@ -18,7 +19,6 @@
     docker
     efm-langserver
     fd
-    fzf
     gh
     git
     gzip
@@ -171,6 +171,12 @@
     #   size = "14.0";
     # };
     # settings = { };
-    extraConfig = builtins.readFile ./kitty/kitty.conf;
+    extraConfig = builtins.readFile ./kitty.conf;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 }
