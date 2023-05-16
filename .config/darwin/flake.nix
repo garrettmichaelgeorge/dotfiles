@@ -18,7 +18,7 @@
   outputs = { self, darwin, nixpkgs, home-manager, ... }:
     let
       userName = "garrett";
-      machineName = "garrettvery-mbp-2019";
+      machineName = "very-mbp-2019";
       system = "x86_64-darwin";
 
       pkgs = import nixpkgs {
