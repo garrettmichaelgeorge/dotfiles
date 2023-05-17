@@ -31,7 +31,7 @@
     nil
     nix-doc
     nmap
-    nodePackages.bash-language-server
+    nodePackages_latest.bash-language-server
     obsidian
     postgresql_14
     python310
@@ -178,5 +178,13 @@
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    extraConfig = builtins.readFile ./init.vim;
   };
 }
