@@ -1,5 +1,12 @@
 { pkgs, lib, specialArgs, config, modulesPath, options, darwinConfig, osConfig }:
 
+let
+  fuzzyFindInFiles = pkgs.writeShellApplication {
+    name = "fzfiles";
+    runtimeInputs = with pkgs; [fzf ripgrep bat neovim];
+    text = builtins.readFile ./fuzzy-find-in-files.sh;
+  };
+in
 {
   # Don't change this when you change package input. Leave it alone.
   home.stateVersion = "22.11";
@@ -19,6 +26,7 @@
     docker
     efm-langserver
     fd
+    fuzzyFindInFiles
     gh
     git
     gzip
@@ -127,6 +135,10 @@
       # one password (op)
       # source /Users/garrett/.config/op/plugins.sh
     '';
+
+    envExtra = ''
+      export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1"
+    '';
   };
 
   programs.bash = {
@@ -174,10 +186,20 @@
     extraConfig = builtins.readFile ./kitty.conf;
   };
 
+  # See programs.zsh.envExtra for env variables
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
+    # defaultCommand = null;
+    # defaultOptions = [
+    #   "--height=40%"
+    #   "--layout=reverse"
+    #   "--info=inline"
+    #   "--border"
+    #   "--margin=1"
+    #   "--padding=1"
+    # ];
   };
 
   programs.neovim = {
