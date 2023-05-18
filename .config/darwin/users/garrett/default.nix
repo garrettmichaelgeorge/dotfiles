@@ -27,6 +27,7 @@ in
     efm-langserver
     fd
     fuzzyFindInFiles
+    fzf-git-sh
     gh
     git
     gzip
@@ -69,7 +70,6 @@ in
     v = "nvim";
     r = "ranger";
     g = "git";
-    n = "nix";
     ka = "killall";
     ez = "exec zsh";
     psag = "ps aux | ag";
@@ -81,7 +81,7 @@ in
     ccat = "highlight --out-format=ansi"; # Color cat - print file with syntax highlighting.
 
     # Elixir
-    imps = "iex - S mix phx.server";
+    imps = "iex -S mix phx.server";
     mdg = "mix deps.get";
     mps = "mix phx.server";
     mt = "mix test";
@@ -104,12 +104,13 @@ in
     steam_wine = "wine ~/.wine/drive_c/Program\ Files\ (x86)/Steam/steam.exe -no-cef-sandbox";
 
     # Nix
+    n = "nix";
     nr = "nix run";
     nb = "nix build";
     nfc = "nix flake check";
 
     # Nix-Darwin
-    # dr = "nix run ${specialArgs.self}";
+    dr = "nix run ${specialArgs.self}";
   };
 
   programs.zsh = {
@@ -138,6 +139,7 @@ in
 
     envExtra = ''
       export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1"
+      source ${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh
     '';
   };
 
@@ -189,9 +191,10 @@ in
   # See programs.zsh.envExtra for env variables
   programs.fzf = {
     enable = true;
+    package = pkgs.fzf;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    # defaultCommand = null;
+    defaultCommand = "rg --files --hidden --follow --glob '!.git'";
     # defaultOptions = [
     #   "--height=40%"
     #   "--layout=reverse"
