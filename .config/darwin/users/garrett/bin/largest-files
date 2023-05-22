@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 puts "How many files?"
 no_of_files = gets.chomp.to_i
 # Store a glob of filenames in the current directory in a variable

@@ -9,12 +9,34 @@ let
     text = builtins.readFile ./fuzzy-find-in-files.sh;
   };
 
+  fzfWork = pkgs.writeShellApplication {
+    name = "work";
+    runtimeInputs = with pkgs; [ fzf findutils ];
+    text = ''
+      FZF_DEFAULT_COMMAND="find $HOME/work -type d -maxdepth 1" \
+        cd "$(fzf)"
+    '';
+  };
+
   browserShim = pkgs.writeShellApplication {
     name = "browser-shim";
     # TODO: consider specifying firefox as dependency
     runtimeInputs = [ ];
     text = builtins.readFile ./browser-shim.sh;
   };
+
+  # HACK: this packages a set of legacy scripts with implicit dependencies
+  # TODO: explicitly specify dependencies for each script
+  localScripts =
+    let
+      mkBinPkg = name: _: (pkgs.writeScriptBin name
+        (builtins.readFile (./bin + "/${name}"))
+      );
+    in
+    pkgs.symlinkJoin {
+      name = "local-scripts";
+      paths = builtins.attrValues (builtins.mapAttrs mkBinPkg (builtins.readDir ./bin));
+    };
 in
 {
   # Don't change this when you change package input. Leave it alone.
@@ -46,6 +68,7 @@ in
     httpie
     jq
     lsof
+    localScripts
     lua-language-server
     mdcat
     nil
@@ -73,6 +96,7 @@ in
     wget
     yarn
     zsh
+    fzfWork
   ];
 
   home.shellAliases = {
@@ -132,25 +156,14 @@ in
     # TODO: figure out how to properly migrate these (they are commented for
     # now)
     initExtra = ''
-      # asdf version manager
-      # . $HOME/.asdf/asdf.sh
-      # append completions to fpath
-      # fpath=("$ASDF_DIR/completions" $fpath)
-
-      # initialise completions with ZSH's compinit
-      # autoload -Uz compinit
-      # compinit
-
-      # iTerm2
-      # test -e $HOME/.iterm2_shell_integration.zsh && source $HOME/.iterm2_shell_integration.zsh || true
-
       # one password (op)
       # source /Users/garrett/.config/op/plugins.sh
+
+      source ${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh
     '';
 
     envExtra = ''
       export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1"
-      source ${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh
     '';
   };
 
@@ -205,7 +218,7 @@ in
     package = pkgs.fzf;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    defaultCommand = "rg --files --hidden --follow --glob '!.git'";
+    defaultCommand = "${pkgs.ripgrep} --files --hidden --follow --glob '!.git'";
     # defaultOptions = [
     #   "--height=40%"
     #   "--layout=reverse"
