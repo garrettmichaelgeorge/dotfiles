@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Converts the system Nix from the one installed by the installer to a
+# flake-managed Nix, which is easier to upgrade.
+# https://github.com/NixOS/nix/issues/5473#issuecomment-1309181669
+
+set -euo pipefail
+set -x
+
+nix --version
+
+# Record path to nix executable.
+readonly nix_binary_path=$(readlink -f $(which nix))
+
+# Record index of nix installation in profile.
+readonly nix_profile_index=$(nix profile list | grep $(echo "$nix_binary_path" | sed 's|^/nix/store/\([^/]*\)/.*$|\1|g') | cut -d ' ' -f 1)
+
+# Remove the symbolic link to the nix executable.
+nix profile remove "$nix_profile_index"
+
+# Install the latest nix release.
+"$nix_binary_path" profile install nixpkgs#nix
+
+# Display the new nix version.
+nix --version

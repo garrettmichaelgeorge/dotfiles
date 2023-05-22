@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Reset Nix after upgrading macOS.
+#
+# Normally, upgrading macOS versions breaks Nix. This script should be all that
+# is necessary to restore full Nix functionality after a macOS upgrade.
+#
+# Read more: https://github.com/LnL7/nix-darwin/wiki/Upgrading-macOS
+
+set -euo pipefail
+
+log () {
+  local string="$1"
+  echo "$string"
+}
+
+main () {
+  log "Restoring Nix after upgrading macOS."
+  log "This will exit the shell after finishing. Start a new shell to reload the environment"
+
+  sleep 2
+
+  log "sudo cp /etc/bashrc /etc/bashrc.orig"
+  sudo cp /etc/bashrc /etc/bashrc.orig
+
+  log "sudo cp /etc/zshrc /etc/zshrc.orig"
+  sudo cp /etc/zshrc /etc/zshrc.orig
+
+  log "sudo cp /etc/zprofile /etc/zprofile.orig"
+  sudo cp /etc/zprofile /etc/zprofile.orig
+
+  # for nix-darwin only?
+  # log "sudo /nix/var/nix/profiles/system/activate"
+  # sudo /nix/var/nix/profiles/system/activate
+
+  exit  # Start a new shell to reload the environment.
+}
+
+main "$@"
