@@ -1,10 +1,19 @@
 { pkgs, lib, specialArgs, config, modulesPath, options, darwinConfig, osConfig }:
 
 let
+  # TODO: move these pkgs into top-level pkgs/ directory and add them as
+  # overlays to nixpkgs
   fuzzyFindInFiles = pkgs.writeShellApplication {
     name = "fzfiles";
-    runtimeInputs = with pkgs; [fzf ripgrep bat neovim];
+    runtimeInputs = with pkgs; [ fzf ripgrep bat neovim ];
     text = builtins.readFile ./fuzzy-find-in-files.sh;
+  };
+
+  browserShim = pkgs.writeShellApplication {
+    name = "browser-shim";
+    # TODO: consider specifying firefox as dependency
+    runtimeInputs = [ ];
+    text = builtins.readFile ./browser-shim.sh;
   };
 in
 {
@@ -14,11 +23,13 @@ in
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
     EDITOR = "nvim";
+    BROWSER = "${browserShim}/bin/browser-shim";
   };
 
   home.packages = with pkgs; [
     asdf-vm
     bat
+    browserShim
     cachix
     coreutils
     curlie
@@ -88,7 +99,7 @@ in
     mtc = "mix test --cover";
     mto = "mix test --only";
     mtw = ''
-      fswatch - -latency=0.1 --one-per-batch -r lib test \
+      fswatch --latency=0.1 --one-per-batch -r lib test \
       | mix test --warnings-as-errors --exclude not_implemented:true --listen-on-stdin
     '';
 
@@ -110,7 +121,7 @@ in
     nfc = "nix flake check";
 
     # Nix-Darwin
-    dr = "nix run ${specialArgs.self}";
+    # dr = "nix run ${specialArgs.self}";
   };
 
   programs.zsh = {
@@ -211,5 +222,10 @@ in
     vimAlias = true;
     vimdiffAlias = true;
     extraConfig = builtins.readFile ./init.vim;
+  };
+
+  programs.tmux = {
+    enable = true;
+    extraConfig = builtins.readFile ./tmux.conf;
   };
 }
