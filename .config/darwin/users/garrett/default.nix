@@ -50,7 +50,6 @@ in
 
   home.packages = with pkgs; [
     asdf-vm
-    bat
     browserShim
     cachix
     coreutils
@@ -240,5 +239,14 @@ in
   programs.tmux = {
     enable = true;
     extraConfig = builtins.readFile ./tmux.conf;
+  };
+
+  programs.bat = {
+    enable = true;
+    # Run `bat --help` to get a list of configuration options. Note these use
+    # command-line syntax and will need to be translated into Nix equivalents.
+    config = {
+      italic-text = "always";
+    };
   };
 }
