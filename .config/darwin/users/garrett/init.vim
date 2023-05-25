@@ -151,3 +151,5 @@ nnoremap <leader>re> :ConvertFunctionCallToPipeline<CR>
 nnoremap <leader>re< :ConvertPipelineToFunctionCall<CR>
 
 nnoremap <leader>l; :luafile %<CR>
+
+colorscheme gruvbox-material

@@ -37,10 +37,14 @@ let
       name = "local-scripts";
       paths = builtins.attrValues (builtins.mapAttrs mkBinPkg (builtins.readDir ./bin));
     };
+
+  customNeovim = import ./nvim { inherit pkgs; };
 in
 {
   # Don't change this when you change package input. Leave it alone.
   home.stateVersion = "22.11";
+
+  home.homeDirectory = "/Users/garrett";
 
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
@@ -54,6 +58,7 @@ in
     cachix
     coreutils
     curlie
+    customNeovim
     delta
     docker
     efm-langserver
@@ -74,6 +79,8 @@ in
     nix-doc
     nmap
     nodePackages_latest.bash-language-server
+    nodePackages_latest.typescript-language-server
+    nodePackages_latest.vscode-langservers-extracted
     obsidian
     postgresql_14
     python310
@@ -217,7 +224,7 @@ in
     package = pkgs.fzf;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    defaultCommand = "${pkgs.ripgrep} --files --hidden --follow --glob '!.git'";
+    defaultCommand = "rg --files --hidden --follow --glob '!.git'";
     # defaultOptions = [
     #   "--height=40%"
     #   "--layout=reverse"
@@ -228,13 +235,14 @@ in
     # ];
   };
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    extraConfig = builtins.readFile ./init.vim;
-  };
+  # programs.neovim = {
+  #   enable = true;
+  # viAlias = true;
+  # vimAlias = true;
+  # vimdiffAlias = true;
+  # extraConfig = builtins.readFile ./init.vim;
+  # plugins = import ./nvim/plugins.nix { inherit pkgs; };
+  # };
 
   programs.tmux = {
     enable = true;
