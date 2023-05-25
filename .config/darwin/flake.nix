@@ -33,7 +33,7 @@
       darwinConfigurations = {
         "${machineName}" = darwin.lib.darwinSystem {
           inherit pkgs system;
-          specialArgs = { trustedUsers = [ userName ]; };
+          specialArgs = { user = userName; trustedUsers = [ userName ]; };
           modules = [
             ./modules/darwin-configuration.nix
             ./modules/linux-builder
