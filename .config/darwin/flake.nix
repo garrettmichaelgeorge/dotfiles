@@ -14,7 +14,10 @@
   outputs = { self, darwin, nixpkgs, home-manager }:
     let
       userName = "garrett";
-      name = "garrettvery-mbp-2019";
+
+      machineNameWork = "garrettvery-mbp-2019";
+      machineNamePersonal = "gg-mbp-2019";
+
       system = "x86_64-darwin";
       pkgs = import nixpkgs {
         inherit system;
@@ -27,7 +30,23 @@
       # $ darwin-rebuild build --flake ./modules/examples#simple \
       #       --override-input darwin .
       darwinConfigurations = {
-        "${name}" = darwin.lib.darwinSystem {
+        "${machineNameWork}" = darwin.lib.darwinSystem {
+          inherit pkgs system;
+          specialArgs = { inherit self; trustedUsers = [ userName ]; };
+          modules = [
+            ./darwin-configuration.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.garrett = import ./home.nix;
+              };
+            }
+          ];
+        };
+
+        "${machineNamePersonal}" = darwin.lib.darwinSystem {
           inherit pkgs system;
           specialArgs = { inherit self; trustedUsers = [ userName ]; };
           modules = [
@@ -44,7 +63,7 @@
         };
       };
       # Expose the package set, including overlays, for convenience.
-      darwinPackages = self.darwinConfigurations."${name}".pkgs;
+      darwinPackages = self.darwinConfigurations."${machineNamePersonal}".pkgs;
 
       # Facilitate running darwin-rebuild as a flake app, e.g.
       # nix run reference-to-this-flake
@@ -66,8 +85,11 @@
 
           program = toString (pkgs.writeScript "activate-system" ''
             set -eux
-            ${builder} --flake "${self}#''$(hostname -s)" "$@"
+            ${builder} --flake "${self}/.config/darwin#''$(hostname -s)" "$@"
           '');
         };
+
+      # For debugging purposes
+      inherit self;
     };
 }
