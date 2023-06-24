@@ -142,14 +142,7 @@
 
   programs.starship = {
     enable = true;
-    settings = {
-      add_newline = true;
-      git_commit = {
-        tag_disabled = false;
-        only_detached = false;
-      };
-      shell.disabled = false;
-    };
+    settings = builtins.fromTOML (builtins.readFile ./starship.toml);
   };
 
   # https://github.com/justjanne/powerline-go
@@ -165,12 +158,12 @@
   programs.kitty = {
     enable = true;
     theme = "Gruvbox Material Dark Medium";
-    # font = {
-    #   package = pkgs.fira-code;
-    #   name = "Fira Code";
-    #   size = "14.0";
-    # };
-    # settings = { };
+    font = {
+      package = pkgs.fira-code;
+      name = "Fira Code Retina";
+      size = 14.0;
+    };
+    settings = { };
     extraConfig = builtins.readFile ./kitty/kitty.conf;
   };
 }
