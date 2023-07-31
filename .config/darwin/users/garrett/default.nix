@@ -62,7 +62,9 @@ in
     delta
     docker
     efm-langserver
+    beam.packages.erlangR26.elixir-ls
     fd
+    ffmpeg
     fuzzyFindInFiles
     fzf-git-sh
     gh
