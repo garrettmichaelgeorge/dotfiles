@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1688307440,
-        "narHash": "sha256-7PTjbN+/+b799YN7Tk2SS5Vh8A0L3gBo8hmB7Y0VXug=",
+        "lastModified": 1690431538,
+        "narHash": "sha256-Uml8ivMMOFPB9fNSDcw72imGHRdJpaK12sRm2DTLLe8=",
         "owner": "lnl7",
         "repo": "nix-darwin",
-        "rev": "b06bab83bdf285ea0ae3c8e145a081eb95959047",
+        "rev": "16c07487ac9bc59f58b121d13160c67befa3342e",
         "type": "github"
       },
       "original": {
@@ -27,27 +27,43 @@
         ]
       },
       "locked": {
-        "lastModified": 1688552611,
-        "narHash": "sha256-pV/1/AU1l5CNFeKmdJ1jofcaKHhtKAbxY4gazeCyoSo=",
+        "lastModified": 1687871164,
+        "narHash": "sha256-bBFlPthuYX322xOlpJvkjUBz0C+MOBjZdDOOJJ+G2jU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b23c7501f7e0a001486c9a5555a6c53ac7b08e85",
+        "rev": "07c347bb50994691d7b0095f45ebd8838cf6bc38",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "master",
+        "ref": "release-23.05",
         "repo": "home-manager",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1688646010,
-        "narHash": "sha256-kCeza5eKI2NEi8k0EoeZfv3lN1r1Vwx+L/VA6I8tmG4=",
+        "lastModified": 1690885180,
+        "narHash": "sha256-ccuhc1Q2wUb9XxEOgjXWXFTyW6zivcjHleXypwhhuuU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5daaa32204e9c46b05cd709218b7ba733d07e80c",
+        "rev": "f887aa5923447258dac21b07df865156993141db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-23.05-darwin",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1690860117,
+        "narHash": "sha256-srkCfjMlg777HxDVMfhkIFgRhhtuZjIOIyR2ejLYK+Y=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "96d403ee2479f2070050353b94808209f1352edb",
         "type": "github"
       },
       "original": {
@@ -61,7 +77,8 @@
       "inputs": {
         "darwin": "darwin",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     }
   },

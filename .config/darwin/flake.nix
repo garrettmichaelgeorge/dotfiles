@@ -2,13 +2,19 @@
   description = "Darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
 
-    darwin.url = "github:lnl7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # FIXME: encountering neovim build errors on x86_64-darwin (why isn't it
     # using the nix-community Cachix substituter instead?)
