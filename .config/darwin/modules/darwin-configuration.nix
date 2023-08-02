@@ -66,7 +66,7 @@
 
   system.keyboard = {
     enableKeyMapping = true;
-    remapCapsLockToEscape = false;
+    remapCapsLockToEscape = true;
   };
 
   system.defaults = {
