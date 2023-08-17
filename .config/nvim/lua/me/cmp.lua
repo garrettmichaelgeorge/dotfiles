@@ -77,13 +77,13 @@ cmp.setup({
       vim_item.menu = ({
         buffer = "[Buffer]",
         latex_symbols = "[Latex]",
-        -- luasnip = "[LuaSnip]",
+        luasnip = "[LuaSnip]",
         nvim_lsp = "[LSP]",
         nvim_lua = "[Lua]",
         omni = "[Omni]",
         path = "[Path]",
         treesitter = "[TS]",
-        -- ultisnips = "[Ulti]",
+        ultisnips = "[Ulti]",
         vim_dadbod_completion = "[DB]",
         vsnip = "[VSnip]",
         git = "[Git]",
@@ -95,7 +95,7 @@ cmp.setup({
     end
   },
   sources = {
-    { name = 'buffer' },
+    -- { name = 'buffer' },
     { name = 'calc' },
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
