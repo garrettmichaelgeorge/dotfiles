@@ -16,6 +16,7 @@
 
   environment.variables = {
     THIS_WAS_SET_FROM_DARWIN_CONFIGURATION = "verily!";
+    HOMEBREW_NO_ANALYTICS = "1";
   };
 
   # Facilitate bash completion for system packages
@@ -101,6 +102,7 @@
       "spotify"
       "brave-browser"
       "joplin"
+      "freetube"
     ];
   };
 }
