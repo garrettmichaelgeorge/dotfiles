@@ -44,7 +44,7 @@ in
   # Don't change this when you change package input. Leave it alone.
   home.stateVersion = "22.11";
 
-  home.homeDirectory = "/Users/garrett";
+  home.homeDirectory = "/Users/${specialArgs.user}";
 
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
