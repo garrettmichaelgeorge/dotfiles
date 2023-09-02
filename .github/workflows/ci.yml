@@ -43,4 +43,13 @@ jobs:
         run: sudo mv /etc/nix/{nix.conf,nix.conf.before-nix-darwin}
 
       - name: Test darwin-rebuild switch
-        run: nix run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
+        run: |
+          # Since the nix.conf that enabled the nix-command and flakes
+          # experimental features had to be moved/backed up, we have to
+          # configure Nix at the CLI to enable those experimental features.
+          #
+          # Passing these flags should only be necessary on first run of this
+          # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
+          # should take over with its managed nix.conf.
+          flags="--extra-experimental-features nix-command --extra-experimental-features flakes"
+          nix "$flags" run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
