@@ -24,7 +24,9 @@ in
 pkgs.writeScript "activate-system" ''
   set -eux
 
-  hostname=$(hostname -s)
+  # TODO: make this configurable to allow for different configurations for
+  # different machines
+  # hostname=$(hostname -s)
 
-  ${builder} --flake "${self}#''$hostname" ${builderCommand}
+  ${builder} --flake "${self}#${system}" ${builderCommand}
 ''

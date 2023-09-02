@@ -24,8 +24,12 @@
   outputs = { self, darwin, nixpkgs, home-manager, ... }:
     let
       userName = "garrett";
-      machineName = "very-mbp-2019";
       system = "x86_64-darwin";
+
+      # TODO: make this configurable to allow for different configurations for
+      # different machines
+      # machineName = "very-mbp-2019";
+      machineName = system;
 
       pkgs = import nixpkgs {
         inherit system;
