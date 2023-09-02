@@ -9,7 +9,11 @@ in
     useGlobalPkgs = true;
     useUserPackages = true;
     verbose = true;
-    users."${user}" = import (../users + "/${user}");
+    # users."${user}" = import (../users + "/${user}");
+    # TODO: find a more flexible design for user configuration
+    # For now, all users will use the same config, declared in
+    # users/garrett/default.nix
+    users."${user}" = import (../users + "/garrett");
   };
 
   # Defining the user again in nix-darwin, after already defining it for
