@@ -13,6 +13,8 @@ jobs:
     defaults:
       run: 
         shell: bash
+    env:
+      PATH_TO_DARWIN_FLAKE: '.config/darwin'
 
     steps:
       - uses: actions/checkout@v3
@@ -29,5 +31,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Check Nix flake
-        working-directory: '.config/darwin'
-        run: nix flake check --keep-going --show-trace --print-build-logs
+        run: nix flake check --keep-going --show-trace --print-build-logs '${{ env.PATH_TO_DARWIN_FLAKE }}'
+
+      - name: Configure local system using nix-darwin
+        run: nix run '${{ env.PATH_TO_DARWIN_FLAKE }}'
