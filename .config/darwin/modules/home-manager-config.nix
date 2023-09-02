@@ -9,6 +9,7 @@ in
     useGlobalPkgs = true;
     useUserPackages = true;
     verbose = true;
+    backupFileExtension = "before-home-manager.bak";
     # users."${user}" = import (../users + "/${user}");
     # TODO: find a more flexible design for user configuration
     # For now, all users will use the same config, declared in
