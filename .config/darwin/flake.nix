@@ -30,7 +30,7 @@
       # different machines
       # machineName = "very-mbp-2019";
       machineName = system;
-      machineNameNoLinuxBuilder = "${machineName}-no-linux-builder";
+      machineNameCi = "${machineName}-ci";
 
       pkgs = import nixpkgs {
         inherit system;
@@ -53,7 +53,9 @@
           ];
         };
 
-        # Same as above, but without Linux builder
+        # Same as above, but without Linux builder, and with the GitHub Actions
+        # macos VM username "runner". For CI use only. Consider a more elegant
+        # design for specifying users.
         # FIXME: re-enable Linux builder and get it to work in CI
         # This is a temporary workaround to resolve an issue in CI.
         # It shouldn't be necessary to disable the Linux builder.
@@ -65,9 +67,10 @@
         # error: a 'x86_64-linux' with features {} is required to build
         # '/nix/store/9r8ym11py2s2j82fjdwkr7rv0dgaf8h5-boot.json.drv', but I am
         # a 'x86_64-darwin' with features {benchmark, big-parallel, nixos-test}
-        "${machineNameNoLinuxBuilder}" = darwin.lib.darwinSystem {
+        "${machineNameCi}" = darwin.lib.darwinSystem {
           inherit pkgs system;
-          specialArgs = { user = userName; trustedUsers = [ userName ]; };
+          # HACK: hardcoding the GitHub Actions runner username
+          specialArgs = { user = "runner"; trustedUsers = [ "runner" ]; };
           modules = [
             ./modules/darwin-configuration.nix
             # ./modules/linux-builder
@@ -93,7 +96,7 @@
         rec {
           rebuild = mkApp (systemAppString { });
           rebuildSwitch = mkApp (systemAppString { inherit machineName; builderCommand = "switch"; });
-          rebuildSwitchNoLinuxBuilder = mkApp (systemAppString { machineName = machineNameNoLinuxBuilder; builderCommand = "switch"; });
+          rebuildSwitchCi = mkApp (systemAppString { machineName = machineNameCi; builderCommand = "switch"; });
 
           # Facilitate running darwin-rebuild as a flake app, e.g. `nix run reference-to-this-flake`
           # https://github.com/LnL7/nix-darwin/issues/613#issuecomment-1485325805

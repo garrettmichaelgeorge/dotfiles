@@ -19,39 +19,37 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: echo "$HOME"
-
       # - name: Ensure Nix flake inputs are fresh
       #   # TODO: re-evaluate whether to allow failure
       #   continue-on-error: true
       #   uses: DeterminateSystems/flake-checker-action@v4
 
-      #- name: Install Nix
-      #  uses: DeterminateSystems/nix-installer-action@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
 
-      #- name: Cache Nix builds
-      #  uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Cache Nix builds
+        uses: DeterminateSystems/magic-nix-cache-action@main
 
-      #- name: Check Nix flake
-      #  run: nix flake check --keep-going --show-trace --print-build-logs '${{ env.PATH_TO_DARWIN_FLAKE }}'
+      - name: Check Nix flake
+        run: nix flake check --keep-going --show-trace --print-build-logs '${{ env.PATH_TO_DARWIN_FLAKE }}'
 
-      ## Prepare the system by fixing the following errors: 
-      ##
-      ## error: Unexpected files in /etc, aborting activation
-      ## The following files have unrecognized content and would be overwritten:
-      ##   /etc/nix/nix.conf
-      ## Please check there is nothing critical in these files, rename them by adding .before-nix-darwin to the end, and then try again.
-      #- name: Prepare system for darwin-rebuild
-      #  run: sudo mv /etc/nix/{nix.conf,nix.conf.before-nix-darwin}
+      # Prepare the system by fixing the following errors: 
+      #
+      # error: Unexpected files in /etc, aborting activation
+      # The following files have unrecognized content and would be overwritten:
+      #   /etc/nix/nix.conf
+      # Please check there is nothing critical in these files, rename them by adding .before-nix-darwin to the end, and then try again.
+      - name: Prepare system for darwin-rebuild
+        run: sudo mv /etc/nix/{nix.conf,nix.conf.before-nix-darwin}
 
-      #- name: Test darwin-rebuild switch
-      #  run: |
-      #    # Since the nix.conf that enabled the nix-command and flakes
-      #    # experimental features had to be moved/backed up, we have to
-      #    # configure Nix at the CLI to enable those experimental features.
-      #    #
-      #    # Passing these flags should only be necessary on first run of this
-      #    # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
-      #    # should take over with its managed nix.conf.
-      #    nix --extra-experimental-features "nix-command flakes" \
-      #      run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
+      - name: Test darwin-rebuild switch
+        run: |
+          # Since the nix.conf that enabled the nix-command and flakes
+          # experimental features had to be moved/backed up, we have to
+          # configure Nix at the CLI to enable those experimental features.
+          #
+          # Passing these flags should only be necessary on first run of this
+          # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
+          # should take over with its managed nix.conf.
+          nix --extra-experimental-features "nix-command flakes" \
+            run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchCi"
