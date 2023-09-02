@@ -14,6 +14,7 @@ in
     # For now, all users will use the same config, declared in
     # users/garrett/default.nix
     users."${user}" = import (../users + "/garrett");
+    extraSpecialArgs = { inherit user; };
   };
 
   # Defining the user again in nix-darwin, after already defining it for

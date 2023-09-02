@@ -1,4 +1,13 @@
-{ pkgs, lib, specialArgs, config, modulesPath, options, darwinConfig, osConfig }:
+{ pkgs
+, lib
+, specialArgs
+, config
+, modulesPath
+, options
+, darwinConfig
+, osConfig
+, user
+}:
 
 let
   # TODO: move these pkgs into top-level pkgs/ directory and add them as
@@ -44,7 +53,7 @@ in
   # Don't change this when you change package input. Leave it alone.
   home.stateVersion = "22.11";
 
-  home.homeDirectory = "/Users/${specialArgs.user}";
+  home.homeDirectory = "/Users/${user}";
 
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";
