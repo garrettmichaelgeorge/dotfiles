@@ -51,5 +51,5 @@ jobs:
           # Passing these flags should only be necessary on first run of this
           # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
           # should take over with its managed nix.conf.
-          flags="--extra-experimental-features nix-command --extra-experimental-features flakes"
-          nix "$flags" run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
+          nix --extra-experimental-features "nix-command flakes" \
+            run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
