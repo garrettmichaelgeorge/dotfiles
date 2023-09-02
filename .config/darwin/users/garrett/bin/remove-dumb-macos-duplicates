@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/usr/bin/env bash
 
 # Sometimes macOS/iCloud/? decides to create a duplicate of every file in a
 # project directory structure. This is not desirable. Run this script from the
