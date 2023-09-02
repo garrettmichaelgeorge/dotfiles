@@ -33,5 +33,14 @@ jobs:
       - name: Check Nix flake
         run: nix flake check --keep-going --show-trace --print-build-logs '${{ env.PATH_TO_DARWIN_FLAKE }}'
 
-      - name: Configure local system using nix-darwin
+      # Prepare the system by fixing the following errors: 
+      #
+      # error: Unexpected files in /etc, aborting activation
+      # The following files have unrecognized content and would be overwritten:
+      #   /etc/nix/nix.conf
+      # Please check there is nothing critical in these files, rename them by adding .before-nix-darwin to the end, and then try again.
+      - name: Prepare system for darwin-rebuild
+        run: sudo mv /etc/nix/{nix.conf,nix.conf.before-nix-darwin}
+
+      - name: Test darwin-rebuild switch
         run: nix run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
