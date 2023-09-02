@@ -34,4 +34,4 @@ jobs:
         run: nix flake check --keep-going --show-trace --print-build-logs '${{ env.PATH_TO_DARWIN_FLAKE }}'
 
       - name: Configure local system using nix-darwin
-        run: nix run "${{ env.PATH_TO_DARWIN_FLAKE }}#x86_64-darwin-no-linux-builder"
+        run: nix run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchNoLinuxBuilder"
