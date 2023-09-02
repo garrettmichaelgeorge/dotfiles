@@ -6,6 +6,7 @@
 , self
 , system
 , darwin
+, machineName
   # Use passthru argument by default
 , builderCommand ? "$@"
 }:
@@ -28,5 +29,5 @@ pkgs.writeScript "activate-system" ''
   # different machines
   # hostname=$(hostname -s)
 
-  ${builder} --flake "${self}#${system}" ${builderCommand}
+  ${builder} --flake "${self}#${machineName}" ${builderCommand}
 ''
