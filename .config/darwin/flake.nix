@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
-
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     darwin = {
@@ -37,7 +36,9 @@
         config = { allowUnfree = true; };
         # FIXME: encountering neovim build errors on x86_64-darwin (why isn't it
         # using the nix-community Cachix substituter instead?)
-        # overlays = [ neovim-nightly-overlay.overlay ];
+        overlays = [
+          # neovim-nightly-overlay.overlay
+        ];
       };
     in
     {
@@ -47,7 +48,7 @@
           specialArgs = { user = userName; trustedUsers = [ userName ]; };
           modules = [
             ./modules/darwin-configuration.nix
-            ./modules/linux-builder
+            # ./modules/linux-builder
             home-manager.darwinModules.home-manager
             ./modules/home-manager-config.nix
           ];
@@ -94,7 +95,7 @@
           mkApp = program: { inherit program; type = "app"; };
         in
         rec {
-          rebuild = mkApp (systemAppString { });
+          rebuild = mkApp (systemAppString { inherit machineName; });
           rebuildSwitch = mkApp (systemAppString { inherit machineName; builderCommand = "switch"; });
           rebuildSwitchCi = mkApp (systemAppString { machineName = machineNameCi; builderCommand = "switch"; });
 
