@@ -29,5 +29,5 @@ pkgs.writeScript "activate-system" ''
   # different machines
   # hostname=$(hostname -s)
 
-  ${builder} --flake "${self}#${machineName}" ${builderCommand}
+  ${builder} --flake "${self}/.config/darwin#${machineName}" ${builderCommand}
 ''
