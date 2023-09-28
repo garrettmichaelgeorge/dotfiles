@@ -268,4 +268,7 @@ in
       italic-text = "always";
     };
   };
+
+  manual.html.enable = true;
+  manual.manpages.enable = true;
 }
