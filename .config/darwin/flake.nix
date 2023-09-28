@@ -96,12 +96,12 @@
         in
         rec {
           rebuild = mkApp (systemAppString { inherit machineName; });
+          rebuildCi = mkApp (systemAppString { machineName = machineNameCi; });
           rebuildSwitch = mkApp (systemAppString { inherit machineName; builderCommand = "switch"; });
           rebuildSwitchCi = mkApp (systemAppString { machineName = machineNameCi; builderCommand = "switch"; });
 
-          # Facilitate running darwin-rebuild as a flake app, e.g. `nix run reference-to-this-flake`
           # https://github.com/LnL7/nix-darwin/issues/613#issuecomment-1485325805
-          default = rebuildSwitch;
+          default = rebuild;
         };
 
       # For debugging in `nix repl`

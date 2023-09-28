@@ -14,7 +14,7 @@ jobs:
       run: 
         shell: bash
     env:
-      PATH_TO_DARWIN_FLAKE: '.config/darwin'
+      PATH_TO_DARWIN_FLAKE: '${{ github.workspace }}/.config/darwin'
 
     steps:
       - uses: actions/checkout@v3
@@ -43,13 +43,13 @@ jobs:
         run: sudo mv /etc/nix/{nix.conf,nix.conf.before-nix-darwin}
 
       - name: Test darwin-rebuild switch
+        # Since the nix.conf that enabled the nix-command and flakes
+        # experimental features had to be moved/backed up, we have to
+        # configure Nix at the CLI to enable those experimental features.
+        #
+        # Passing these flags should only be necessary on first run of this
+        # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
+        # should take over with its managed nix.conf.
         run: |
-          # Since the nix.conf that enabled the nix-command and flakes
-          # experimental features had to be moved/backed up, we have to
-          # configure Nix at the CLI to enable those experimental features.
-          #
-          # Passing these flags should only be necessary on first run of this
-          # flake, which runs `darwin-rebuild switch`. After that, nix-darwin
-          # should take over with its managed nix.conf.
-          nix --extra-experimental-features "nix-command flakes" \
-            run "${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildSwitchCi"
+          nix --extra-experimental-features 'nix-command flakes' \
+            run '${{ env.PATH_TO_DARWIN_FLAKE }}#rebuildCi' switch
