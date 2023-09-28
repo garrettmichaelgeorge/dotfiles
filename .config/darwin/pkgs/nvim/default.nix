@@ -5,8 +5,8 @@
 
 pkgs.neovim.override {
   configure = {
-    # TODO: move init.vim into this directory
-    customRC = builtins.readFile ../init.vim;
+    name = "nvim-gg";
+    customRC = builtins.readFile ./init.vim;
     packages.myPlugins = {
       start = (import ./plugins.nix { inherit pkgs; });
       # If a Vim plugin has a dependency that is not explicitly listed in

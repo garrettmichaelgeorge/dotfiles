@@ -6,7 +6,7 @@
 , options
 , darwinConfig
 , osConfig
-, user
+, homeDirectory
 }:
 
 let
@@ -47,13 +47,13 @@ let
       paths = builtins.attrValues (builtins.mapAttrs mkBinPkg (builtins.readDir ./bin));
     };
 
-  customNeovim = import ./nvim { inherit pkgs; };
+  customNeovim = import ../../pkgs/nvim { inherit pkgs; };
 in
 {
   # Don't change this when you change package input. Leave it alone.
   home.stateVersion = "22.11";
 
-  home.homeDirectory = "/Users/${user}";
+  home.homeDirectory = homeDirectory;
 
   home.sessionVariables = {
     THIS_WAS_SET_BY_HOME_MANAGER = "yep!";

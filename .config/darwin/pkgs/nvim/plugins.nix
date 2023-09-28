@@ -13,6 +13,14 @@ let
     meta.homepage = "https://github.com/ecomba/vim-ruby-refactoring";
   };
 
+  # My nvim config as a plugin
+  # This ensures all nvim code is added to the runtimepath
+  garrett-config = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "garrett-config";
+    version = "1970-01-01";
+    src = ./garrett-config;
+  };
+
   treesitterWithPlugins = (pkgs.vimPlugins.nvim-treesitter.withPlugins (
     # Use all available nvim-treesitter plugins
     # plugins: builtins.map (plugin: plugins.${plugin}) (builtins.attrNames plugins)
@@ -32,6 +40,10 @@ let
   ));
 in
 with pkgs.vimPlugins; [
+  # My config as a plugin
+  garrett-config
+
+  # Other plugins
   vim-sensible
   vim-commentary
   vim-surround
