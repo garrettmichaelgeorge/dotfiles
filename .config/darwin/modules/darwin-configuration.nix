@@ -80,6 +80,12 @@
 
   homebrew = {
     enable = true;
-    casks = [ "vscode" ];
+    casks = [
+      "brave-browser"
+      "firefox"
+      "freetube"
+      "joplin"
+      "spotify"
+    ];
   };
 }
