@@ -109,7 +109,6 @@ in
     tflint
     tree
     universal-ctags
-    vscode
     wget
     yarn
     zsh
