@@ -77,4 +77,15 @@
     NSGlobalDomain.InitialKeyRepeat = 14;
     NSGlobalDomain.KeyRepeat = 1;
   };
+
+  homebrew = {
+    enable = true;
+    casks = [
+      "brave-browser"
+      "firefox"
+      "freetube"
+      "joplin"
+      "spotify"
+    ];
+  };
 }

@@ -13,6 +13,14 @@ let
     meta.homepage = "https://github.com/ecomba/vim-ruby-refactoring";
   };
 
+  # My nvim config as a plugin
+  # This ensures all nvim code is added to the runtimepath
+  garrett-config = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "garrett-config";
+    version = "1970-01-01";
+    src = ./garrett-config;
+  };
+
   treesitterWithPlugins = (pkgs.vimPlugins.nvim-treesitter.withPlugins (
     # Use all available nvim-treesitter plugins
     # plugins: builtins.map (plugin: plugins.${plugin}) (builtins.attrNames plugins)
@@ -32,41 +40,42 @@ let
   ));
 in
 with pkgs.vimPlugins; [
-  vim-sensible
+  # My config as a plugin
+  garrett-config
+
+  # Other plugins
+  asyncrun-vim
+  auto-pairs
+  emmet-vim
+  vim-abolish
   vim-commentary
-  vim-surround
+  vim-dispatch
   vim-endwise
   vim-eunuch
-  vim-fugitive
-  vim-rhubarb # GitHub integration
-  vim-repeat
-  vim-tbone
-  vim-rails
-  vim-dispatch
-  vim-unimpaired
-  vim-abolish
-  vim-repeat
-  vim-projectionist
-  auto-pairs
-  vim-indent-guides
-  emmet-vim
-  asyncrun-vim
   vim-exchange
-  vim-matchup
+  vim-fugitive
+  vim-indent-guides
   vim-indentwise
-
-  # Color
-  gruvbox-material
+  vim-matchup
+  vim-projectionist
+  vim-rails
+  vim-repeat
+  vim-repeat
+  vim-rhubarb # GitHub integration
+  vim-sensible
+  vim-surround
+  vim-tbone
+  vim-unimpaired
 
   # Finders
   ack-vim
 
   # IDE
   # LSP
-  nvim-lspconfig
-  trouble-nvim
-  nvim-web-devicons # Icons for use in trouble-nvim
   lspkind-nvim
+  nvim-lspconfig
+  nvim-web-devicons # Icons for use in trouble-nvim
+  trouble-nvim
 
   # Completion, Snippets
   nvim-cmp
@@ -74,37 +83,35 @@ with pkgs.vimPlugins; [
   cmp-buffer
   cmp-buffer
   cmp-cmdline
+  cmp-git
   cmp-nvim-lsp
+  cmp-nvim-ultisnips # UltiSnips snippets
   cmp-path
+  cmp-treesitter
   cmp-vsnip
+  cmp_luasnip
+  friendly-snippets
+  ultisnips # UltiSnips engine
+  vim-snippets
   vim-vsnip
   vim-vsnip-integ
-  friendly-snippets
-  cmp_luasnip
-  cmp-treesitter
-  cmp-git
-  # UltiSnips engine
-  ultisnips
-  # UltiSnips snippets
-  vim-snippets
-  cmp-nvim-ultisnips
-
 
   # Telescope with dependencies and a faster backend
-  popup-nvim
   plenary-nvim
-  telescope-nvim
+  popup-nvim
   telescope-fzy-native-nvim
+  telescope-nvim
 
   # TreeSitter
-  treesitterWithPlugins
-  playground
   nvim-treesitter-refactor
   nvim-treesitter-textobjects
+  playground
+  treesitterWithPlugins
 
   # Color
-  lush-nvim
+  gruvbox-material
   gruvbox-nvim
+  lush-nvim
   material-nvim
 
   # Misc

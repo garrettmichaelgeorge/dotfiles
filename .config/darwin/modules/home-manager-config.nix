@@ -2,6 +2,7 @@
 
 let
   user = specialArgs.user;
+  homeDirectory = "/Users/${user}";
 in
 # https://nix-community.github.io/home-manager/nix-darwin-options.html
 {
@@ -10,12 +11,13 @@ in
     useUserPackages = true;
     verbose = true;
     backupFileExtension = "before-home-manager.bak";
-    # users."${user}" = import (../users + "/${user}");
     # TODO: find a more flexible design for user configuration
     # For now, all users will use the same config, declared in
     # users/garrett/default.nix
-    users."${user}" = import (../users + "/garrett");
-    extraSpecialArgs = { inherit user; };
+    # One idea:
+    # users."${user}" = import (../users + "/${user}");
+    users."${user}" = import (../users/garrett);
+    extraSpecialArgs = { inherit homeDirectory; };
   };
 
   # Defining the user again in nix-darwin, after already defining it for
@@ -26,6 +28,6 @@ in
   # https://github.com/nix-community/home-manager/issues/2004
   users.users."${user}" = {
     name = "${user}";
-    home = "/Users/${user}";
+    home = homeDirectory;
   };
 }
