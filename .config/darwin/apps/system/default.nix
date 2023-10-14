@@ -29,5 +29,17 @@ pkgs.writeScript "activate-system" ''
   # different machines
   # hostname=$(hostname -s)
 
-  ${builder} --flake "${self}#${machineName}" ${builderCommand}
+  # Preflight
+  # Determine flake location (in GitHub Actions, it seems to be in a different
+  # place?)
+  if [[ -e "${self}/flake.nix" ]]; then
+    flake_ref="${self}"
+  elif [[ -e "${self}/.config/darwin/flake.nix" ]]; then
+    flake_ref="${self}/.config/darwin"
+  else
+    echo "Failed to find a valid flake reference" >&2
+    exit 1
+  fi
+
+  ${builder} --flake "$flake_ref#${machineName}" ${builderCommand}
 ''
