@@ -1,6 +1,6 @@
 [user]
 	name = Garrett George
-	email = garrett.michael.george@gmail.com
+	email = 45802549+garrettmichaelgeorge@users.noreply.github.com
 
 [alias]
 	br = branch
@@ -13,6 +13,7 @@
 	st = status
 	sw = switch
 	unstage = reset HEAD --
+	exec = "!exec "
 
 # Use Delta to format git printed output
 # https://github.com/dandavison/delta#configuration
