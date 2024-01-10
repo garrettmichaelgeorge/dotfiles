@@ -47,7 +47,9 @@
           specialArgs = { user = userName; trustedUsers = [ userName ]; };
           modules = [
             ./modules/darwin-configuration.nix
-            ./modules/linux-builder
+            # FIXME: getting build errors for linux builder which block the
+            # nix-darwin flake from building. Disabling for now.
+            # ./modules/linux-builder
             home-manager.darwinModules.home-manager
             ./modules/home-manager-config.nix
           ];
