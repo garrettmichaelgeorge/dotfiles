@@ -121,4 +121,9 @@ alias ei="cd ~/other/ex_integrate"
 alias cf="cd ~/.config"
 alias true_colors="bash ~/.scripts/true_colors.sh"
 
-source ~/.secret_aliases
+source_if_exists () {
+    local path="$1"
+    [[ -f "$path" ]] && source "$path"
+}
+
+source_if_exists $HOME/.secret_aliases
