@@ -83,6 +83,7 @@ if exists('g:loaded_minpac')
     " Misc
     call minpac#add('nvim-neorg/neorg')
     call minpac#add('lewis6991/impatient.nvim')
+    call minpac#add('mfussenegger/nvim-lint')
   endif
 
   " DB
