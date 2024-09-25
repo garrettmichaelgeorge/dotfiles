@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Upgrade system packages.
+
+readonly NOTIFIER="$HOME/.nix-profile/bin/terminal-notifier"
+readonly NOTIFIER_ICON="./app_icon.icns"
+
+set -euo pipefail
+
+notify () {
+  local title="Package Upgrades"
+  local message="$1"
+  local subtitle="$2"
+
+  $NOTIFIER -message "$message" -title "$title" -subtitle "$subtitle" packages -appIcon "$NOTIFIER_ICON"
+}
+
+upgrade_pkg () {
+  local command="$1"
+  local message="$2"
+
+  notify "$message..." "$command"
+
+  if (${command}); then
+    notify "Success!" "$command"
+  else
+    notify "Failure! {$?}" "$command"
+  fi
+}
+
+main () {
+  upgrade_pkg "brew upgrade" "Upgrading Homebrew" 
+  upgrade_pkg "brew cleanup" "Cleaning brew packages" 
+  upgrade_pkg "nix-env --upgrade" "Upgrading nix packages" 
+  upgrade_pkg "brew reinstall neovim" "Updating Neovim nightly" 
+  upgrade_pkg "nvim --headless +PackUpdate +PackClean +qa" "Updating Neovim packages" 
+
+  notify "Exiting: System package upgrades complete" ""
+  reset
+}
+
+main "$@"
