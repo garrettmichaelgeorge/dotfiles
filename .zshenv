@@ -7,18 +7,18 @@
 export EDITOR="nvim"
 # export TERM="xterm-256color"
 export TERMINAL="zsh"
-export BROWSER="Firefox Developer Edition"
+export BROWSER=$HOME/.BROWSER
 export DISABLE_SPRING=1
 export WEB_CONCURRENCY=1
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 export BAT_THEME="gruvbox-dark"
-export LS_COLORS="$(vivid generate solarized-dark)"
+# export LS_COLORS="$(vivid generate solarized-dark)"
 
 # Wine
-export WINEPREFIX="$HOME/.wine/"
-export PATH="/Applications/Wine Stable.app/Contents/Resources/wine/bin:$PATH"
-export FREETYPE_PROPERTIES="truetype:interpreter-version=35"
-export DYLD_FALLBACK_LIBRARY_PATH="/usr/lib:/opt/X11/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+# export WINEPREFIX="$HOME/.wine/"
+# export PATH="/Applications/Wine Stable.app/Contents/Resources/wine/bin:$PATH"
+# export FREETYPE_PROPERTIES="truetype:interpreter-version=35"
+# export DYLD_FALLBACK_LIBRARY_PATH="/usr/lib:/opt/X11/lib:$DYLD_FALLBACK_LIBRARY_PATH"
 
 # # less/man colors
 # export LESS=-R
@@ -33,18 +33,18 @@ export DYLD_FALLBACK_LIBRARY_PATH="/usr/lib:/opt/X11/lib:$DYLD_FALLBACK_LIBRARY_
 # Compilers & Build Tools
 # asdf
 export PATH="$HOME/.asdf/shims:$PATH"
-export KERL_CONFIG=${KERL_CONFIG:="$HOME"/.kerlrc}
-export KERL_BUILD_DOCS=true
-export KERL_CONFIGURE_OPTIONS="--disable-debug \
-                               --disable-hipe \
-                               --enable-smp-support \
-                               --enable-threads \
-                               --enable-kernel-poll \
-                               --without-odbc \
-                               --without-termcap \
-                               --enable-darwin-64bit \
-                               --with-wx-config=`brew --prefix wxwidgets`/bin/wx-config \
-                               --with-ssl=`brew --prefix openssl@1.1`"
+# export KERL_CONFIG=${KERL_CONFIG:="$HOME"/.kerlrc}
+# export KERL_BUILD_DOCS=true
+# export KERL_CONFIGURE_OPTIONS="--disable-debug \
+#                                --disable-hipe \
+#                                --enable-smp-support \
+#                                --enable-threads \
+#                                --enable-kernel-poll \
+#                                --without-odbc \
+#                                --without-termcap \
+#                                --enable-darwin-64bit \
+#                                --with-wx-config=`brew --prefix wxwidgets`/bin/wx-config \
+#                                --with-ssl=`brew --prefix openssl@1.1`"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -61,10 +61,18 @@ export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 export PATH="$HOME/.elixir_ls/:$PATH"
 
 # Homebrew recommended OpenSSL settings
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+# export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
+# Use ~~ as the trigger sequence instead of the default **
+export FZF_COMPLETION_TRIGGER='~~'
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS='--border --info=inline'
 
 # Nix
 export NIX_BUILD_CORES=0 # 0 means use all available CPU cores
 if [ -e /Users/garrett.george/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/garrett.george/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+source $HOME/.github-completions.zsh
 
 export ITERM2_SQUELCH_MARK=0
