@@ -23,6 +23,14 @@
 	sw = switch
 	unstage = reset HEAD --
 
+# Assumes GitHub CLI is installed by homebrew
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
+
 # Use Delta to format git printed output
 # https://github.com/dandavison/delta#configuration
 [pager]
