@@ -2,26 +2,25 @@
 #
 # Upgrade system packages.
 
-readonly NOTIFIER="$HOME/.nix-profile/bin/terminal-notifier"
-readonly NOTIFIER_ICON="./app_icon.icns"
-
 set -euo pipefail
+
+readonly notifier_icon="./app_icon.icns"
 
 notify () {
   local title="Package Upgrades"
   local message="$1"
   local subtitle="$2"
 
-  $NOTIFIER -message "$message" -title "$title" -subtitle "$subtitle" packages -appIcon "$NOTIFIER_ICON"
+  terminal-notifier -message "$message" -title "$title" -subtitle "$subtitle" packages -appIcon "$notifier_icon"
 }
 
 upgrade_pkg () {
-  local command="$1"
+  local command=$1
   local message="$2"
 
   notify "$message..." "$command"
 
-  if (${command}); then
+  if set -x; eval "$command"; set +x; then
     notify "Succeeded" "$command"
   else
     notify "Failed with exit status $?" "$command"
@@ -31,12 +30,11 @@ upgrade_pkg () {
 main () {
   upgrade_pkg "brew upgrade" "Upgrading Homebrew" 
   upgrade_pkg "brew cleanup" "Cleaning brew packages" 
-  upgrade_pkg "nix profile upgrade '.*'" "Upgrading nix packages" 
+  upgrade_pkg "NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade --impure '.*'" "Upgrading nix packages" 
   upgrade_pkg "brew reinstall neovim" "Updating Neovim nightly" 
   upgrade_pkg "nvim --headless +PackUpdate +PackClean +qa" "Updating Neovim packages" 
 
   notify "Exiting: System package upgrades complete" ""
-  reset
 }
 
 main "$@"
