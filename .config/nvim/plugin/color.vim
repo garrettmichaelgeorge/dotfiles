@@ -25,7 +25,7 @@ if (!exists('g:vscode'))
 
   " gruvbox-material
   let g:gruvbox_material_palette = 'material' " 'material', 'mix', 'original'
-  let g:gruvbox_material_background = 'hard'
+  let g:gruvbox_material_background = 'medium'
   let g:gruvbox_material_enable_italic = 1
   let g:gruvbox_material_disable_italic_comment = 0
   let g:gruvbox_material_enable_bold = 0

@@ -71,11 +71,11 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Enable the following language servers
 
-local path_to_elixirls = vim.fn.expand("~/Documents/GitHub/elixir-ls/rel/language_server.sh")
+local path_to_elixirls = vim.fn.expand("~/.elixir-ls/language_server.sh")
 lspconfig.elixirls.setup({
   enable = true,
   cmd = { path_to_elixirls },
@@ -139,27 +139,27 @@ lspconfig.efm.setup({
   capabilities = capabilities,
   on_attach = on_attach,
   filetypes = {"elixir", "heex", "eelixir", "javascript", "javascriptreact", "vue", "sh", "shell", "bash"},
-  -- init_options = {
-  --   documentFormatting = true,
-  --   hover = true,
-  --   documentSymbol = true,
-  --   codeAction = false,
-  --   completion = false
-  -- },
-  -- root_dir = function(fname)
-  --   return util.root_pattern("tsconfig.json")(fname) or
-  --     util.root_pattern("eslintrc.js", ".git")(fname);
-  -- end,
-  -- settings = {
-  --   -- rootMarkers = { "mix.exs", "mix.lock" },
-  --   languages = {
-  --     -- elixir = { elixir },
-  --     javascript = { prettier },
-  --     typescript = { },
-  --     shell = { shell },
-  --     bash = { shell }
-  --   }
-  -- }
+  init_options = {
+    documentFormatting = true,
+    hover = true,
+    documentSymbol = true,
+    codeAction = false,
+    completion = false
+  },
+  root_dir = function(fname)
+    return util.root_pattern("tsconfig.json")(fname) or
+      util.root_pattern("eslintrc.js", ".git")(fname);
+  end,
+  settings = {
+    -- rootMarkers = { "mix.exs", "mix.lock" },
+    languages = {
+      elixir = { elixir },
+      javascript = { prettier },
+      typescript = { },
+      shell = { shell },
+      bash = { shell }
+    }
+  }
 })
 
 require'lspconfig'.bashls.setup{
