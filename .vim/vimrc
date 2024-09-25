@@ -11,6 +11,8 @@ packadd minpac
 
 " Use MinPac plugin manager
 if exists('g:loaded_minpac')
+  packadd minpac
+
   call minpac#init()
   call minpac#add('k-takata/minpac', {'type': 'opt'})
 
@@ -49,19 +51,35 @@ if exists('g:loaded_minpac')
   " IDE
   if has('nvim')
     " LSP
-    call minpac#add('neovim/nvim-lspconfig', {'branch': 'feat/0_7_goodies'})
+    call minpac#add('neovim/nvim-lspconfig')
     call minpac#add('folke/trouble.nvim')
     call minpac#add('kyazdani42/nvim-web-devicons') " Icons for use in trouble.nvim
     call minpac#add('onsails/lspkind-nvim')
 
     " Completion, Snippets
-    call minpac#add('hrsh7th/cmp-buffer')
-    call minpac#add('hrsh7th/cmp-nvim-lsp')
-    call minpac#add('hrsh7th/cmp-vsnip')
+    " https://github.com/hrsh7th/nvim-cmp#recommended-configuration
     call minpac#add('hrsh7th/nvim-cmp')
+
+    call minpac#add('hrsh7th/cmp-buffer')
+    call minpac#add('hrsh7th/cmp-buffer')
+    call minpac#add('hrsh7th/cmp-cmdline')
+    call minpac#add('hrsh7th/cmp-nvim-lsp')
+    call minpac#add('hrsh7th/cmp-path')
+    call minpac#add('hrsh7th/cmp-vsnip')
     call minpac#add('hrsh7th/vim-vsnip')
     call minpac#add('hrsh7th/vim-vsnip-integ')
     call minpac#add('rafamadriz/friendly-snippets')
+    call minpac#add('saadparwaiz1/cmp_luasnip')
+    call minpac#add('delphinus/cmp-ctags')
+    call minpac#add('ray-x/cmp-treesitter')
+    call minpac#add('petertriho/cmp-git')
+    " UltiSnips engine
+    " https://github.com/SirVer/ultisnips
+    " call minpac#add('SirVer/ultisnips')
+    " UltiSnips snippets
+    call minpac#add('honza/vim-snippets')
+    " call minpac#add('quangnguyen30192/cmp-nvim-ultisnips')
+    
 
     " Telescope with dependencies and a faster backend
     call minpac#add('nvim-lua/popup.nvim')
@@ -81,7 +99,6 @@ if exists('g:loaded_minpac')
     call minpac#add('marko-cerovac/material.nvim')
 
     " Misc
-    call minpac#add('nvim-neorg/neorg')
     call minpac#add('lewis6991/impatient.nvim')
     call minpac#add('mfussenegger/nvim-lint')
   endif
@@ -107,6 +124,7 @@ if exists('g:loaded_minpac')
   call minpac#add('lervag/vimtex')
 
   " Elixir
+  call minpac#add('mhanberg/elixir.nvim')
   call minpac#add('dkuku/vim-projectionist-elixir')
   call minpac#add('andyl/vim-textobj-elixir')
 
@@ -199,10 +217,10 @@ nnoremap { :keepjumps normal! {<cr>
 
 " TAG JUMPING
 " Create the 'tags' file
-" command! MakeTags  !ctags -R
-" command! MakeTagsExclude !ctags -R --exclude=@.ctagsignore .
+command! MakeTags  !ctags -R
+command! MakeTagsExclude !ctags -R --exclude=@.ctagsignore .
 " Generate tags based on git
-command! MakeTags !git ls-files | ctags -L -
+" command! MakeTags !git ls-files | ctags -L -
 
 " Disables automatic commenting on newline:
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -288,3 +306,7 @@ endif
 
 " Vimspector Plugin
 let g:vimspector_enable_mappings = "HUMAN" " Use default keybindings
+
+command! PackUpdate call minpac#update()
+command! PackClean  call minpac#clean()
+command! PackStatus packadd minpac | call minpac#status()
