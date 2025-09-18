@@ -78,20 +78,20 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Enable the following language servers
 
-local path_to_elixirls = vim.fn.expand("~/.elixir-ls/language_server.sh")
-lspconfig.elixirls.setup({
-  enable = true,
-  cmd = { path_to_elixirls },
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    elixirLS = {
-      dialyzerEnabled = true,
-      fetchDeps = true,
-      enableTestLenses = true,
-    }
-  }
-})
+-- local path_to_elixirls = vim.fn.expand("~/.elixir-ls/language_server.sh")
+-- lspconfig.elixirls.setup({
+--   enable = true,
+--   cmd = { path_to_elixirls },
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   settings = {
+--     elixirLS = {
+--       dialyzerEnabled = true,
+--       fetchDeps = true,
+--       enableTestLenses = true,
+--     }
+--   }
+-- })
 
 local elixir = {
   lintCommand = "MIX_ENV=test mix credo suggest --format=flycheck --read-from-stdin ${INPUT}",
@@ -185,91 +185,27 @@ lspconfig.efm.setup({
   }
 })
 
-require'lspconfig'.bashls.setup{
+vim.lsp.config['terraformls'] = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
 
-require'lspconfig'.terraformls.setup{
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-require'lspconfig'.tflint.setup{
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "tflint", "--langserver" },
-  filetypes = { "terraform" },
-  root_dir = require'lspconfig'.util.root_pattern(".terraform", ".git", ".tflint.hcl")
-}
-
-require'lspconfig'.emmet_ls.setup{
+vim.lsp.config['emmet_ls'] = {
   filetypes = { "html", "css", "eelixir", "leex", "heex"},
   on_attach = on_attach,
   capabilities = capabilities
 }
 
-require'lspconfig'.eslint.setup{
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue" },
-  -- handlers = {
-  --   ["eslint/confirmESLintExecution"] = <function 1>,
-  --   ["eslint/noLibrary"] = <function 2>,
-  --   ["eslint/openDoc"] = <function 3>,
-  --   ["eslint/probeFailed"] = <function 4>
-  -- },
-  on_new_config = function(config, new_root_dir)
-  -- The "workspaceFolder" is a VSCode concept. It limits how far the
-  -- server will traverse the file system when locating the ESLint config
-  -- file (e.g., .eslintrc).
-    config.settings.workspaceFolder = {
-      uri = new_root_dir,
-      name = vim.fn.fnamemodify(new_root_dir, ':t'),
-    }
-  end,
-  -- root_dir = function(startpath)
-  --   return M.search_ancestors(startpath, matcher)
-  -- end,
-  settings = {
-    codeAction = {
-      disableRuleComment = {
-        enable = true,
-        location = "separateLine"
-      },
-      showDocumentation = {
-        enable = true
-      }
-    },
-    codeActionOnSave = {
-      enable = false,
-      mode = "all"
-    },
-    format = true,
-    nodePath = "",
-    onIgnoredFiles = "off",
-    packageManager = "npm",
-    quiet = false,
-    rulesCustomizations = {},
-    run = "onType",
-    useESLintClass = false,
-    validate = "on",
-    workingDirectory = {
-      mode = "auto"
-    }
-  }
-}
-
 -- If a server doesn't need special configuration, add it here
 local generic_servers = {}
 for _, lsp in ipairs(generic_servers) do
-  lspconfig[lsp].setup {
+  lspconfig[lsp] =  {
     on_attach = on_attach,
     capabilities = capabilities
   }
 end
 
-require'lspconfig'.texlab.setup{
+vim.lsp.config['texlab'] = {
   init_options = {
     build = {
       executable = "tectonic",
@@ -285,7 +221,7 @@ require'lspconfig'.texlab.setup{
   capabilities = capabilities
 }
 
-require'lspconfig'.html.setup{
+vim.lsp.config['html'] = {
   filetypes = { "html", "eelixir", "leex", "heex"},
   init_options = {
     configurationSection = { "html", "css", "javascript" },
@@ -298,62 +234,39 @@ require'lspconfig'.html.setup{
   capabilities = capabilities
 }
 
-require'lspconfig'.jsonls.setup {
-  commands = {
-    Format = {
-      function()
-        vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
-      end
-    }
-  },
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-
-require'lspconfig'.rnix.setup {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-
--- https://github.com/oxalica/nil#neovim-native-lsp-and-nvim-lspconfig
-require'lspconfig'.nil_ls.setup{
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-
 -- Enable Lua custom server
 -- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
+-- local runtime_path = vim.split(package.path, ';')
+-- table.insert(runtime_path, 'lua/?.lua')
+-- table.insert(runtime_path, 'lua/?/init.lua')
 
-lspconfig.lua_ls.setup({
-  cmd = { 'lua-language-server' },
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Set up your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file('', true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
+-- lspconfig.lua_ls.setup({
+--   cmd = { 'lua-language-server' },
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   settings = {
+--     Lua = {
+--       runtime = {
+--         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--         version = 'LuaJIT',
+--         -- Set up your lua path
+--         path = runtime_path,
+--       },
+--       diagnostics = {
+--         -- Get the language server to recognize the `vim` global
+--         globals = { 'vim' },
+--       },
+--       workspace = {
+--         -- Make the server aware of Neovim runtime files
+--         library = vim.api.nvim_get_runtime_file('', true),
+--       },
+--       -- Do not send telemetry data containing a randomized but unique identifier
+--       telemetry = {
+--         enable = false,
+--       },
+--     },
+--   },
+-- })
 
 local lsp = vim.lsp
 lsp.handlers["textDocument/publishDiagnostics"] =
@@ -396,4 +309,13 @@ lsp.handlers["textDocument/publishDiagnostics"] =
 --   opts.border = opts.border or border
 --   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 -- end
+
+vim.lsp.enable('expert')
+vim.lsp.enable('bashls')
+vim.lsp.enable('terraformls')
+vim.lsp.enable('emmet_ls')
+vim.lsp.enable('eslint')
+vim.lsp.enable('jsonls')
+vim.lsp.enable('rnix')
+vim.lsp.enable('nil_ls')
 

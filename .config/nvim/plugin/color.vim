@@ -20,7 +20,7 @@ if (!exists('g:vscode'))
 
   " gruvbox
   let g:gruvbox_italic='1'
-  let g:gruvbox_contrast_dark = 'hard'
+  let g:gruvbox_contrast_dark = 'dark'
   let g:gruvbox_invert_selection='1'
 
   " gruvbox-material
@@ -35,5 +35,5 @@ if (!exists('g:vscode'))
 
   nnoremap <leader>mm :lua require('material.functions').toggle_style()<CR>
 
-  colorscheme gruvbox-material
+  colorscheme gruvbox
 endif
