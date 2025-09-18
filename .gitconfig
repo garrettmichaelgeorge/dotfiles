@@ -51,9 +51,12 @@
 
 [diff]
 	colorMoved = default
+
 [core]
 	excludesFile = ~/.gitignore
 	sshCommand = /usr/bin/env ssh
+	pager = delta
+
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
