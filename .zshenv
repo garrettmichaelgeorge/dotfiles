@@ -7,7 +7,8 @@
 export EDITOR="nvim"
 # export TERM="xterm-256color"
 export TERMINAL="zsh"
-export BROWSER=$HOME/.BROWSER
+# export BROWSER=$HOME/.BROWSER
+export BROWSER="$(which open)"
 export DISABLE_SPRING=1
 export WEB_CONCURRENCY=1
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
@@ -60,9 +61,15 @@ export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 # Add ElixirLS to $PATH
 export PATH="$HOME/.elixir_ls/:$PATH"
 
+# Configure Erlang VM at runtime with good defaults
+export ERL_AFLAGS="+pc unicode -kernel shell_history enabled"
+
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Homebrew recommended OpenSSL settings
 # export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
+# fzf (fuzzy finder)
 # Use ~~ as the trigger sequence instead of the default **
 export FZF_COMPLETION_TRIGGER='~~'
 
@@ -76,3 +83,4 @@ if [ -e /Users/garrett.george/.nix-profile/etc/profile.d/nix.sh ]; then . /Users
 source $HOME/.github-completions.zsh
 
 export ITERM2_SQUELCH_MARK=0
+
