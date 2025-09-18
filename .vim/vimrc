@@ -53,14 +53,13 @@ if exists('g:loaded_minpac')
     " LSP
     call minpac#add('neovim/nvim-lspconfig')
     call minpac#add('folke/trouble.nvim')
-    call minpac#add('kyazdani42/nvim-web-devicons') " Icons for use in trouble.nvim
+    " call minpac#add('kyazdani42/nvim-web-devicons') " Icons for use in trouble.nvim
     call minpac#add('onsails/lspkind-nvim')
 
     " Completion, Snippets
     " https://github.com/hrsh7th/nvim-cmp#recommended-configuration
     call minpac#add('hrsh7th/nvim-cmp')
 
-    call minpac#add('hrsh7th/cmp-buffer')
     call minpac#add('hrsh7th/cmp-buffer')
     call minpac#add('hrsh7th/cmp-cmdline')
     call minpac#add('hrsh7th/cmp-nvim-lsp')
@@ -102,11 +101,6 @@ if exists('g:loaded_minpac')
     call minpac#add('lewis6991/impatient.nvim')
     call minpac#add('mfussenegger/nvim-lint')
   endif
-
-  " DB
-  call minpac#add('tpope/vim-dadbod')
-  call minpac#add('kristijanhusak/vim-dadbod-ui')
-  call minpac#add('kristijanhusak/vim-dadbod-completion')
 
   " Test runner
   call minpac#add('vim-test/vim-test')
