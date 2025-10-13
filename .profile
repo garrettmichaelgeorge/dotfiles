@@ -112,6 +112,43 @@ alias nfc='nix flake check'
 alias m="mise"
 alias mr="mise run"
 
+# Uninstall & install a given Mise package
+# Useful for upgrading a package with rolling "nightly" ref
+# Pass `-g` to use global packages
+mise_reinstall() {
+  local mise_use_args
+  local package
+
+  case "$1" in
+    -g) mise_use_args="-g"
+      package="$2"
+    ;;
+    *) package="$1"
+    ;;
+  esac
+  
+  mise uninstall "$package" && mise use "$mise_use_args" "$package"
+}
+
+# Script macOS system notifications using AppleScript
+# Credit: https://ishan.page/blog/macos-notify-cli/
+# See also https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/DisplayNotifications.html
+notify() {
+  local message="$1"
+  local title="${2:-Notification}"
+
+  if [[ -z "$message" ]]; then
+    echo "Usage: notify <message> [title]"
+    return 1
+  fi
+
+  osascript <<APPLESCRIPT 
+display notification "$message" with title "$title"
+APPLESCRIPT
+}
+
+alias nf="notify"
+
 source_if_exists () {
     local path="$1"
     [[ -f "$path" ]] && source "$path"
